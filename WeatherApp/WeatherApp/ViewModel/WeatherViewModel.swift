@@ -13,6 +13,7 @@ class WeatherViewModel: ObservableObject {
     @Published var tempCelsius: String = ""
     @Published var tempFarah: String = ""
     
+    @MainActor
     func getWeatherData() {
         Task{
             do{
