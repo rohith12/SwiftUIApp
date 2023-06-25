@@ -13,10 +13,20 @@ struct WeatherWatch: View {
     
     var body: some View {
         VStack {
-            Text(viewModel.locationName)
-            Text(viewModel.tempCelsius)
-            Text(viewModel.tempFarah)
-        }.onAppear {
+            HStack {
+                Text("Location name: ")
+                Text(viewModel.locationName)
+            }
+            HStack {
+                Text("Temp celsius: ")
+                Text(viewModel.tempCelsius)
+            }
+            HStack {
+                Text("Temp Fahrenheit: ")
+                Text(viewModel.tempFarah)
+            }
+        }
+        .onAppear {
             viewModel.getWeatherData()
         }
         .padding()
