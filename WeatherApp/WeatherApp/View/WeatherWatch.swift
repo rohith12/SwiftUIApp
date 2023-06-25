@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct WeatherWatch: View {
+    
+    @ObservedObject var viewModel = WeatherViewModel()
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            Text(viewModel.locationName)
+            Text(viewModel.tempCelsius)
+            Text(viewModel.tempFarah)
+        }.onAppear {
+            viewModel.getWeatherData()
         }
         .padding()
     }
