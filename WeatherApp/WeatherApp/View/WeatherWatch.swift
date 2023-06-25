@@ -9,18 +9,16 @@ import SwiftUI
 
 struct WeatherWatch: View {
     
-    @StateObject var viewModel = WeatherViewModel()
+    @ObservedObject var viewModel = WeatherViewModel()
     
     var body: some View {
         VStack {
             Text(viewModel.locationName)
             Text(viewModel.tempCelsius)
             Text(viewModel.tempFarah)
-            
         }.onAppear {
             viewModel.getWeatherData()
         }
-        
         .padding()
     }
 }
