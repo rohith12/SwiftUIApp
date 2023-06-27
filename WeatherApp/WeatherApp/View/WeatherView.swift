@@ -14,7 +14,42 @@ struct WeatherView: View {
     var body: some View {
         NavigationStack {
             VStack {
+                fetchWeatherData()
+                    .padding(10)
                 displayWeatherData()
+                    .padding(10)
+                Spacer()
+            }
+        }
+        .navigationTitle("Weather App")
+    }
+    
+    @ViewBuilder func fetchWeatherData() -> some View {
+        VStack(alignment: .center) {
+            TextField("Enter city name or zipcode", text: $viewModel.cityName)
+            Button("Get weather data") {
+                if viewModel.cityName.count > 0 {
+                    viewModel.getWeatherData()
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder func displayWeatherData() -> some View {
+        if viewModel.showWeatherData {
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("Location name: ")
+                    Text(viewModel.locationName)
+                }
+                HStack {
+                    Text("Temp celsius: ")
+                    Text(viewModel.tempCelsius)
+                }
+                HStack {
+                    Text("Temp Fahrenheit: ")
+                    Text(viewModel.tempFarah)
+                }
                 Spacer()
                 NavigationLink {
                     if let weatherData = viewModel.weatherData {
@@ -24,34 +59,8 @@ struct WeatherView: View {
                     Text("Weather Detail")
                 }
             }
-            .onAppear {
-                viewModel.getWeatherData()
-            }
-            .padding()
-        }
-        .navigationTitle("Weather App")
-    }
-    
-    @ViewBuilder func displayWeatherData() -> some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Text("Location name: ")
-                Text(viewModel.locationName)
-            }
-            HStack {
-                Text("Temp celsius: ")
-                Text(viewModel.tempCelsius)
-            }
-            HStack {
-                Text("Temp Fahrenheit: ")
-                Text(viewModel.tempFarah)
-            }
         }
     }
-}
-
-enum NavigationState {
-    case screen1
 }
 
 struct ContentView_Previews: PreviewProvider {

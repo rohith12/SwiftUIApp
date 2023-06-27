@@ -13,13 +13,14 @@ class NetworkLayer {
     let baseURL: String = "http://api.weatherapi.com/v1/current.json"
     let APIKey = "ebb67604775d4e9badf141831232306"
     
-    public func fetchWeather() async throws -> Weather? {
+    public func fetchWeather(locationName: String) async throws -> Weather? {
         
-        let fullURLStr = baseURL + "?key=" + APIKey + "&q=Dallas&aqi=no"
+        let fullURLStr = baseURL + "?key=" + APIKey
         
+        let queryItems = [URLQueryItem(name: "q", value: locationName)]
         let url = URL(string: fullURLStr.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
         
-        if let url = url {
+        if let url = url?.appending(queryItems: queryItems) {
             let request = URLRequest(url: url)
 
             let (data, response) = try await URLSession.shared.data(for: request)
