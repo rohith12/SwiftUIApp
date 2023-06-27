@@ -50,7 +50,6 @@ struct WeatherView: View {
                     Text("Temp Fahrenheit: ")
                     Text(viewModel.tempFarah)
                 }
-                Spacer()
                 NavigationLink {
                     if let weatherData = viewModel.weatherData {
                         WeatherDetailView(weatherData)

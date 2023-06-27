@@ -20,13 +20,18 @@ class WeatherViewModel: ObservableObject {
     func getWeatherData() {
         Task{
             do{
-                weatherData = try await NetworkLayer.shared.fetchWeather(locationName: cityName)
-                if let weather = weatherData {
+                let result = try await NetworkLayer.shared.fetchWeather(locationName: cityName)
+                switch result {
+                case .success(let weather):
+                    weatherData = weather
                     locationName = weather.location.name
                     tempCelsius = "\(weather.current.tempC)"
                     tempFarah = "\(weather.current.tempF)"
                     showWeatherData = true
+                case .failure(let error):
+                    print(error)
                 }
+                
             }catch{
                 print(error)
             }

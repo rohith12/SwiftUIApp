@@ -13,7 +13,7 @@ class NetworkLayer {
     let baseURL: String = "http://api.weatherapi.com/v1/current.json"
     let APIKey = "ebb67604775d4e9badf141831232306"
     
-    public func fetchWeather(locationName: String) async throws -> Weather? {
+    public func fetchWeather(locationName: String) async throws -> Result<Weather, NetworkError> {
         
         let fullURLStr = baseURL + "?key=" + APIKey
         
@@ -22,15 +22,19 @@ class NetworkLayer {
         
         if let url = url?.appending(queryItems: queryItems) {
             let request = URLRequest(url: url)
-
             let (data, response) = try await URLSession.shared.data(for: request)
-
-            let fetchedData = try JSONDecoder().decode(Weather.self, from: try mapResponse(response: (data,response)))
-
-            return fetchedData
-        } else {
-            return nil
+            do {
+                let fetchedData = try JSONDecoder().decode(Weather.self, from: try mapResponse(response: (data,response)))
+                return .success(fetchedData)
+            } catch {
+                if let error = error as? NetworkError {
+                    return .failure(error)
+                } else {
+                    print(error)
+                }
+            }
         }
+        return .failure(.badRequest)
     }
     
     func mapResponse(response: (data: Data, response: URLResponse)) throws -> Data {
