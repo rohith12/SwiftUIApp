@@ -15,12 +15,17 @@ class WeatherViewModel: ObservableObject {
     @Published  var cityName: String = ""
     @Published var showWeatherData: Bool = false
     var weatherData: Weather? = nil
+    var webService: NetworkLayer
+
+    init(webService: NetworkLayer) {
+        self.webService = webService
+    }
     
     @MainActor
     func getWeatherData() {
         Task{
             do{
-                let result = try await NetworkLayer.shared.fetchWeather(locationName: cityName)
+                let result = try await webService.fetchWeather(locationName: cityName)
                 switch result {
                 case .success(let weather):
                     weatherData = weather

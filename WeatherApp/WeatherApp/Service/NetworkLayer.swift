@@ -7,7 +7,11 @@
 
 import Foundation
 
-class NetworkLayer {
+protocol NetworkProtocol {
+    func fetchWeather(locationName: String) async throws -> Result<Weather, NetworkError>
+}
+
+class NetworkLayer: NetworkProtocol {
     
     static let shared = NetworkLayer()
     let baseURL: String = "http://api.weatherapi.com/v1/current.json"
