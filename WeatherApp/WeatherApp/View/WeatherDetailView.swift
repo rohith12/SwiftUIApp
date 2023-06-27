@@ -17,6 +17,8 @@ struct WeatherDetailView: View {
     
     var body: some View {
         displayWeatherData()
+            .padding()
+        Spacer()
     }
     
     @ViewBuilder func displayWeatherData() -> some View {
