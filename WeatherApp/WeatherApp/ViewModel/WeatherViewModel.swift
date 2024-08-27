@@ -8,7 +8,6 @@
 import Foundation
 
 class WeatherViewModel: ObservableObject {
-    
     @Published var locationName: String = ""
     @Published var tempCelsius: String = ""
     @Published var tempFarah: String = ""

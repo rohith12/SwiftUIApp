@@ -10,7 +10,7 @@ import XCTest
 
 final class WeatherAppTests: XCTestCase {
     
-    var viewModel: WeatherViewModel! = nil
+    var viewModel: WeatherViewModel!
 
     override func setUpWithError() throws {
         viewModel = WeatherViewModel(webService: MockNetworkLayer())
