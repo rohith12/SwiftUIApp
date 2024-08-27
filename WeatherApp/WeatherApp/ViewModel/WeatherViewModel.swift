@@ -15,9 +15,9 @@ class WeatherViewModel: ObservableObject {
     @Published  var cityName: String = ""
     @Published var showWeatherData: Bool = false
     var weatherData: Weather? = nil
-    var webService: NetworkLayer
+    var webService: NetworkProtocol
 
-    init(webService: NetworkLayer) {
+    init(webService: NetworkProtocol) {
         self.webService = webService
     }
     
