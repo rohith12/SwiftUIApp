@@ -35,8 +35,8 @@ class WeatherViewModel: ObservableObject {
     
     func mappingOntoView(weather: Weather?) {
         locationName = weather?.location.name ?? ""
-        tempCelsius = "\(weather?.current.tempC)"
-        tempFarah = "\(weather?.current.tempF)"
+        tempCelsius = "\(String(describing: weather?.current.tempC))"
+        tempFarah = "\(String(describing: weather?.current.tempF))"
         showWeatherData = true
     }
 }
