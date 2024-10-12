@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WeatherView: View {
     
-    @ObservedObject var viewModel = WeatherViewModel(webService: NetworkLayer.shared)
+    @StateObject var viewModel = WeatherViewModel(webService: NetworkLayer.shared)
 
     var body: some View {
         NavigationStack {
