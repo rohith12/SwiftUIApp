@@ -8,7 +8,7 @@
 import Foundation
 
 protocol NetworkProtocol {
-    func fetchWeather(locationName: String) async throws -> Result<Weather, NetworkError>
+    func fetchWeather(locationName: String) async throws -> Weather
 }
 
 class NetworkLayer: NetworkProtocol {
@@ -17,28 +17,24 @@ class NetworkLayer: NetworkProtocol {
     let baseURL: String = "http://api.weatherapi.com/v1/current.json"
     let APIKey = "ebb67604775d4e9badf141831232306"
     
-    public func fetchWeather(locationName: String) async throws -> Result<Weather, NetworkError> {
+    public func fetchWeather(locationName: String) async throws -> Weather {
         
         let fullURLStr = baseURL + "?key=" + APIKey
         
         let queryItems = [URLQueryItem(name: "q", value: locationName)]
         let url = URL(string: fullURLStr.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
         
-        if let url = url?.appending(queryItems: queryItems) {
-            let request = URLRequest(url: url)
-            let (data, response) = try await URLSession.shared.data(for: request)
-            do {
-                let fetchedData = try JSONDecoder().decode(Weather.self, from: try mapResponse(response: (data,response)))
-                return .success(fetchedData)
-            } catch {
-                if let error = error as? NetworkError {
-                    return .failure(error)
-                } else {
-                    print(error)
-                }
-            }
+        guard let url = url?.appending(queryItems: queryItems) else {
+            throw NetworkError.badRequest
         }
-        return .failure(.badRequest)
+        let request = URLRequest(url: url)
+        let (data, response) = try await URLSession.shared.data(for: request)
+        do {
+            let fetchedData = try JSONDecoder().decode(Weather.self, from: try mapResponse(response: (data,response)))
+            return fetchedData
+        } catch {
+            throw error
+        }
     }
     
     func mapResponse(response: (data: Data, response: URLResponse)) throws -> Data {
