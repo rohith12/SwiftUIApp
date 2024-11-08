@@ -33,6 +33,7 @@ class WeatherViewModel: ObservableObject {
         }
     }
     
+    @MainActor
     func mappingOntoView(weather: Weather?) {
         guard let weatherUnwrapped: Weather = weather else {
            return
