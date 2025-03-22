@@ -7,12 +7,13 @@
 
 import Foundation
 
-class WeatherViewModel: ObservableObject {
-    @Published var locationName: String = ""
-    @Published var tempCelsius: String = ""
-    @Published var tempFarah: String = ""
-    @Published  var cityName: String = ""
-    @Published var showWeatherData: Bool = false
+@Observable class WeatherViewModel {
+    var locationName: String = ""
+    var tempCelsius: String = ""
+    var tempFarah: String = ""
+    var cityName: String = ""
+    var showWeatherData: Bool = false
+    
     var weatherData: Weather? = nil
     var webService: NetworkProtocol
 
