@@ -29,7 +29,9 @@ struct WeatherView: View {
             TextField("Enter city name or zipcode", text: $viewModel.cityName)
             Button("Get weather data") {
                 if viewModel.cityName.count > 0 {
-                    viewModel.getWeatherData()
+                    Task {
+                        await viewModel.getWeatherData()
+                    }
                 }
             }
         }

@@ -21,15 +21,13 @@ class WeatherViewModel: ObservableObject {
     }
     
     @MainActor
-    func getWeatherData() {
-        Task {
-            do{
-                let result: Weather = try await webService.fetchWeather(locationName: cityName)
-                weatherData = result
-                mappingOntoView(weather: weatherData)
-            } catch{
-                print(error)
-            }
+    func getWeatherData() async {
+        do{
+            let result: Weather = try await webService.fetchWeather(locationName: cityName)
+            weatherData = result
+            mappingOntoView(weather: weatherData)
+        } catch{
+            print(error)
         }
     }
     
